@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     top: 0;
     left: 0;
     height: 3px;
-    background: linear-gradient(90deg, #00d9ff, #9d4edd, #ff006e);
+    background: linear-gradient(90deg, #38e8ff, #ffb321, #ff4b35);
     width: 0%;
     z-index: 101;
     transition: width 0.2s ease;
@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Highlight current nav section on scroll
   window.addEventListener('scroll', function() {
     let current = '';
+    const scrollTop = window.scrollY;
     const sections = document.querySelectorAll('section');
     
     sections.forEach(section => {
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.style.borderColor = 'transparent';
       if (link.getAttribute('href') === '#' + current) {
-        link.style.borderColor = '#00d9ff';
+        link.style.borderColor = '#38e8ff';
       }
     });
   });
