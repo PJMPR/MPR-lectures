@@ -1,0 +1,38 @@
+# Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project specific
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.asc
+release.properties
+dependency-reduced-pom.xml
+.classpath
+.project
+.settings/
+bin/
+
+# Build
+build/
+dist/
+out/
+
+# Package
+node_modules/
+package-lock.json
+yarn.lock

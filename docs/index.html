@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPR Lectures - Metody Programowania w Java</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">⚡ MPR</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#lectures">Wykłady</a></li>
+                <li><a href="#about">O projekcie</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <h1 class="animate-glow">Metody Programowania w Java</h1>
+            <p style="font-size: 1.2rem; margin-top: 1.5rem;">
+                Kompletny kurs testowania, design patternów, i best practices w Java. 
+                Każdy wykład zawiera teorię, praktyczne przykłady i projekty do laboratoriów.
+            </p>
+            <div style="margin-top: 2rem;">
+                <a href="#lectures" class="btn">Przejdź do wykładów</a>
+            </div>
+        </section>
+
+        <section id="lectures">
+            <h2>Wykłady</h2>
+            <div class="lectures-grid">
+                <!-- Lecture 1 -->
+                <div class="lecture-card">
+                    <div class="lecture-card-number">01</div>
+                    <h3>Wstęp do testów jednostkowych</h3>
+                    <p>Fundamenty JUnit 5, struktura testów (AAA pattern), asercje, best practices.</p>
+                    <a href="lectures/01-unit-tests.html" class="btn btn-secondary" style="display: block; text-align: center; margin-top: 1rem;">Przejdź do wykładu</a>
+                </div>
+
+                <!-- Lecture 2 -->
+                <div class="lecture-card">
+                    <div class="lecture-card-number">02</div>
+                    <h3>Zaawansowane testowanie - Mockito</h3>
+                    <p>Mockowanie zależności, Spy, stubbing, weryfikacja interakcji.</p>
+                    <a href="lectures/02-mockito.html" class="btn btn-secondary" style="display: block; text-align: center; margin-top: 1rem;">Przejdź do wykładu</a>
+                </div>
+
+                <!-- Lecture 3 -->
+                <div class="lecture-card">
+                    <div class="lecture-card-number">03</div>
+                    <h3>Test-Driven Development (TDD)</h3>
+                    <p>Red-Green-Refactor cykl, pisanie testów najpierw, refactoring kodu.</p>
+                    <a href="lectures/03-tdd.html" class="btn btn-secondary" style="display: block; text-align: center; margin-top: 1rem;">Przejdź do wykładu</a>
+                </div>
+
+                <!-- Lecture 4 -->
+                <div class="lecture-card">
+                    <div class="lecture-card-number">04</div>
+                    <h3>Design Patterns - Singleton i Factory</h3>
+                    <p>Wzorce projektowe, singleton pattern, factory pattern, lazy initialization.</p>
+                    <a href="lectures/04-design-patterns-1.html" class="btn btn-secondary" style="display: block; text-align: center; margin-top: 1rem;">Przejdź do wykładu</a>
+                </div>
+
+                <!-- Lecture 5 -->
+                <div class="lecture-card">
+                    <div class="lecture-card-number">05</div>
+                    <h3>Design Patterns - Observer i Decorator</h3>
+                    <p>Observer pattern dla event-driven architecture, Decorator pattern dla composition.</p>
+                    <a href="lectures/05-design-patterns-2.html" class="btn btn-secondary" style="display: block; text-align: center; margin-top: 1rem;">Przejdź do wykładu</a>
+                </div>
+
+                <!-- Lecture 6 -->
+                <div class="lecture-card">
+                    <div class="lecture-card-number">06</div>
+                    <h3>SOLID Principles - S, O, L</h3>
+                    <p>Single Responsibility, Open/Closed, Liskov Substitution principles.</p>
+                    <a href="lectures/06-solid-1.html" class="btn btn-secondary" style="display: block; text-align: center; margin-top: 1rem;">Przejdź do wykładu</a>
+                </div>
+
+                <!-- Lecture 7 -->
+                <div class="lecture-card">
+                    <div class="lecture-card-number">07</div>
+                    <h3>SOLID Principles - I, D</h3>
+                    <p>Interface Segregation, Dependency Inversion principles. Dependency injection.</p>
+                    <a href="lectures/07-solid-2.html" class="btn btn-secondary" style="display: block; text-align: center; margin-top: 1rem;">Przejdź do wykładu</a>
+                </div>
+
+             
+        </section>
+
+    </main>
+
+    <footer>
+        <p>📍 <strong>MPR Lectures</strong> - PJATK Gdańsk</p>
+        <p>🔗 <a href="https://github.com/PJMPR/MPR-lectures" target="_blank">GitHub Repository</a></p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
