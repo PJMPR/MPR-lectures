@@ -11,10 +11,10 @@
 <body>
     <header>
         <nav>
-            <div class="logo">⚡ MPR</div>
+            <div class="logo">MPR</div>
             <ul class="nav-links">
-                <li><a href="/MPR-lectures/index.html">Home</a></li>
-                <li><a href="/MPR-lectures/index.html#lectures">Wykłady</a></li>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#lectures">Wykłady</a></li>
                 <li><a href="#top">Bieżący</a></li>
             </ul>
         </nav>
@@ -25,7 +25,7 @@
         <section id="top" style="text-align: center;">
             <h1 class="animate-glow">Wstęp do testów jednostkowych w Java</h1>
             <p style="font-size: 1.1rem; color: #9d4edd; margin-top: 1.5rem;">
-                🧪 Fundamenty JUnit 5 | AAA Pattern | Asercje | Best Practices
+                SYSTEM TESTOWY // JUnit 5 | AAA Pattern | Asercje | Best Practices
             </p>
         </section>
 
@@ -65,9 +65,9 @@
 
             <p>To test jednostkowy sprawdzi:</p>
             <ul style="margin-left: 2rem;">
-                <li>add(2, 3) zwraca 5 ✅</li>
-                <li>add(-1, 1) zwraca 0 ✅</li>
-                <li>add(0, 0) zwraca 0 ✅</li>
+                <li><span class="status-tag status-ok">PASS</span> add(2, 3) zwraca 5</li>
+                <li><span class="status-tag status-ok">PASS</span> add(-1, 1) zwraca 0</li>
+                <li><span class="status-tag status-ok">PASS</span> add(0, 0) zwraca 0</li>
             </ul>
 
             <p>
@@ -91,35 +91,35 @@
                 Oto główne powody, dla których powinniśmy je pisać:
             </p>
 
-            <h3>✅ Pewność w kodzie</h3>
+            <h3><span class="hud-tag">QA-01</span> Pewność w kodzie</h3>
             <p>
                 Dzięki testom wiemy, że nasz kod działa jak powinien. 
                 Jeśli test przejdzie, funkcjonalność jest poprawna.
             </p>
 
-            <h3>🛡️ Zapobieganie regresji</h3>
+            <h3><span class="hud-tag">QA-02</span> Zapobieganie regresji</h3>
             <p>
                 Gdy zmieniamy kod (refaktoryzujemy, optymalizujemy), 
                 testy sprawdzą, czy nie zepsuli​śmy czegoś, co wcześniej działało.
             </p>
 
-            <h3>📖 Dokumentacja kodu</h3>
+            <h3><span class="hud-tag">QA-03</span> Dokumentacja kodu</h3>
             <p>
                 Testy pokazują, jak należy używać naszego kodu. 
                 Są to żywe przykłady zachowania się metod.
             </p>
 
-            <h3>🔧 Ułatwienie refaktoryzacji</h3>
+            <h3><span class="hud-tag">QA-04</span> Ułatwienie refaktoryzacji</h3>
             <p>
                 Możemy śmiało zmienić implementację, jeśli testy nadal przechodzą.
             </p>
 
-            <h3>🐛 Szybsze łapanie błędów</h3>
+            <h3><span class="hud-tag">QA-05</span> Szybsze łapanie błędów</h3>
             <p>
                 Błędy są wykrywane w momencie ich wprowadzenia, a nie w produkcji.
             </p>
 
-            <h3>💪 Zwiększenie jakości kodu</h3>
+            <h3><span class="hud-tag">QA-06</span> Zwiększenie jakości kodu</h3>
             <p>
                 Kod testowany jest zazwyczaj lepiej zaprojektowany i łatwiej się go czyta.
             </p>
@@ -134,18 +134,18 @@
                 Każdy test powinien mieć trzy fazy:
             </p>
 
-            <h3>🔧 Arrange (Przygotowanie)</h3>
+            <h3><span class="hud-tag">AAA-A</span> Arrange (Przygotowanie)</h3>
             <p>
                 Przygotowujemy dane i obiekty potrzebne do testu. 
                 Tworzą "fixture" - stan początkowy testu.
             </p>
 
-            <h3>▶️ Act (Akcja)</h3>
+            <h3><span class="hud-tag">AAA-B</span> Act (Akcja)</h3>
             <p>
                 Wykonujemy metodę, którą testujemy. Wywołujemy kod, który chcemy sprawdzić.
             </p>
 
-            <h3>✔️ Assert (Asercja)</h3>
+            <h3><span class="hud-tag">AAA-C</span> Assert (Asercja)</h3>
             <p>
                 Sprawdzamy wynik. Porównujemy rzeczywistą wartość z oczekiwaną.
             </p>
@@ -185,7 +185,7 @@ public void testAdd_PositiveNumbers() {
                 Jest nowoczesny, elastyczny i łatwy w użyciu.
             </p>
 
-            <h3>📌 Anotacja @Test</h3>
+            <h3><span class="hud-tag">J5-01</span> Anotacja @Test</h3>
             <p>
                 Anotacja <code>@Test</code> oznacza, że metoda jest testem. 
                 JUnit automatycznie ją uruchomi.
@@ -197,7 +197,7 @@ public void testAdd() {
     assertEquals(5, calculator.add(2, 3));
 }</code></pre>
 
-            <h3>🔄 @BeforeEach - Setup</h3>
+            <h3><span class="hud-tag">J5-02</span> @BeforeEach - Setup</h3>
             <p>
                 Metoda oznaczona <code>@BeforeEach</code> uruchamia się <strong>przed każdym</strong> testem. 
                 Używamy jej do inicjalizacji "fixture".
@@ -229,7 +229,7 @@ public void testSubtract() {
                 Testy są wówczas niezależne od siebie.
             </p>
 
-            <h3>🧹 @AfterEach - Teardown</h3>
+            <h3><span class="hud-tag">J5-03</span> @AfterEach - Teardown</h3>
             <p>
                 Metoda oznaczona <code>@AfterEach</code> uruchamia się <strong>po każdym</strong> teście. 
                 Używamy jej do czyszczenia zasobów (np. zamykanie plików, połączeń do BD).
@@ -241,7 +241,7 @@ public void tearDown() {
     calculator = null;
 }</code></pre>
 
-            <h3>📊 Porównanie: @BeforeEach vs @Before (JUnit 4)</h3>
+            <h3><span class="hud-tag">J5-04</span> Porównanie: @BeforeEach vs @Before (JUnit 4)</h3>
             <table>
                 <tr>
                     <th>JUnit 5 (@BeforeEach)</th>
@@ -275,7 +275,7 @@ public void tearDown() {
                 Jeśli asercja nie przejdzie, test się nie powiedzie.
             </p>
 
-            <h3>📋 Główne asercje JUnit 5</h3>
+            <h3><span class="hud-tag">AST-01</span> Główne asercje JUnit 5</h3>
 
             <table>
                 <tr>
@@ -403,30 +403,30 @@ public void testDivide_ByZero_ExceptionDetails() {
         <section id="best-practices">
             <h2>7. Best Practices</h2>
 
-            <h3>📝 1. Nazewnictwo testów</h3>
+            <h3><span class="hud-tag">BP-01</span> 1. Nazewnictwo testów</h3>
             <p>
                 Nazwa testu powinna jasno opisywać, co testuje. 
                 Popularna konwencja:
             </p>
             <pre><code>test[MethodName]_When[Condition]_Then[ExpectedResult]</code></pre>
 
-            <pre><code class="language-java">// ✅ DOBRE nazwy
+            <pre><code class="language-java">// [OK] DOBRE nazwy
 testAdd_WhenPositiveNumbers_ThenReturnSum()
 testDivide_WhenDivisorIsZero_ThenThrowException()
 testIsEven_WhenNumberIs4_ThenReturnTrue()
 
-// ❌ ŹLE nazwy
+// [BŁĄD] ŹLE nazwy
 test1()
 testMethod()
 myTest()</code></pre>
 
-            <h3>🎯 2. Jeden warunek na test (KISS)</h3>
+            <h3><span class="hud-tag">BP-02</span> 2. Jeden warunek na test (KISS)</h3>
             <p>
                 Każdy test powinien sprawdzać <strong>jeden</strong> warunek. 
                 Nie łącz wiele asercji w jednym teście!
             </p>
 
-            <pre><code class="language-java">// ❌ ŹLE - zbyt wiele warunków
+            <pre><code class="language-java">// [BŁĄD] ŹLE - zbyt wiele warunków
 @Test
 public void testCalculator() {
     assertEquals(8, calculator.add(5, 3));
@@ -435,7 +435,7 @@ public void testCalculator() {
     assertEquals(1, calculator.divide(5, 3));
 }
 
-// ✅ DOBRZE - oddzielne testy
+// [OK] DOBRZE - oddzielne testy
 @Test
 public void testAdd() {
     assertEquals(8, calculator.add(5, 3));
@@ -446,18 +446,18 @@ public void testSubtract() {
     assertEquals(2, calculator.subtract(5, 3));
 }</code></pre>
 
-            <h3>🛡️ 3. Unikaj magicznych liczb</h3>
+            <h3><span class="hud-tag">BP-03</span> 3. Unikaj magicznych liczb</h3>
             <p>
                 Używaj named constants zamiast magicznych liczb i stringów.
             </p>
 
-            <pre><code class="language-java">// ❌ ŹLE - magiczne liczby
+            <pre><code class="language-java">// [BŁĄD] ŹLE - magiczne liczby
 @Test
 public void testAdd() {
     assertEquals(8, calculator.add(5, 3));
 }
 
-// ✅ DOBRZE - named constants
+// [OK] DOBRZE - named constants
 @Test
 public void testAdd() {
     final int FIRST_NUMBER = 5;
@@ -467,13 +467,13 @@ public void testAdd() {
     assertEquals(EXPECTED_RESULT, calculator.add(FIRST_NUMBER, SECOND_NUMBER));
 }</code></pre>
 
-            <h3>🔄 4. Testy powinny być niezależne</h3>
+            <h3><span class="hud-tag">BP-04</span> 4. Testy powinny być niezależne</h3>
             <p>
                 Kolejność uruchomienia testów nie powinna mieć znaczenia. 
                 Każdy test powinien być niezależnym.
             </p>
 
-            <pre><code class="language-java">// ❌ ŹLE - testy zależą od siebie
+            <pre><code class="language-java">// [BŁĄD] ŹLE - testy zależą od siebie
 private static int counter = 0;
 
 @Test
@@ -488,7 +488,7 @@ public void testSecond() {
     assertEquals(2, counter);  // Może się nie powieść jeśli testSecond uruchomi się pierwszy!
 }
 
-// ✅ DOBRZE - @BeforeEach resetuje stan
+// [OK] DOBRZE - @BeforeEach resetuje stan
 private int counter;
 
 @BeforeEach
@@ -502,18 +502,18 @@ public void testIncrement() {
     assertEquals(1, counter);
 }</code></pre>
 
-            <h3>💬 5. Dodaj wiadomości do asercji</h3>
+            <h3><span class="hud-tag">BP-05</span> 5. Dodaj wiadomości do asercji</h3>
             <p>
                 Wiadomość pomaga zrozumieć, dlaczego test się nie powiedzie.
             </p>
 
-            <pre><code class="language-java">// ✅ DOBRZE
+            <pre><code class="language-java">// [OK] DOBRZE
 assertEquals(8, calculator.add(5, 3), 
     "5 + 3 powinno równać się 8");
 
 // Jeśli test się nie powiedzie, zobaczymy wiadomość!</code></pre>
 
-            <h3>🚀 6. Testuj edge cases</h3>
+            <h3><span class="hud-tag">BP-06</span> 6. Testuj edge cases</h3>
             <p>
                 Pamiętaj o przypadkach granicznych i ekstremalnych:
             </p>
@@ -525,19 +525,19 @@ assertEquals(8, calculator.add(5, 3),
                 <li>Bardzo duże wartości</li>
             </ul>
 
-            <h3>❌ 7. Nie testuj implementacji, testuj zachowanie</h3>
+            <h3><span class="hud-tag">BP-07</span> 7. Nie testuj implementacji, testuj zachowanie</h3>
             <p>
                 Testuj CO kod robi, a nie JAK to robi.
             </p>
 
-            <pre><code class="language-java">// ❌ ŹLE - testowanie implementacji
+            <pre><code class="language-java">// [BŁĄD] ŹLE - testowanie implementacji
 @Test
 public void testAdd() {
     // Testujemy wewnętrzną strukturę
     assertTrue(calculator.getInternalState().contains(result));
 }
 
-// ✅ DOBRZE - testowanie zachowania
+// [OK] DOBRZE - testowanie zachowania
 @Test
 public void testAdd() {
     assertEquals(8, calculator.add(5, 3));
@@ -548,7 +548,7 @@ public void testAdd() {
         <section id="how-to-run">
             <h2>8. Jak uruchomić testy?</h2>
 
-            <h3>🖥️ Wiersz poleceń (CLI)</h3>
+            <h3><span class="hud-tag">RUN-01</span> Wiersz poleceń (CLI)</h3>
 
             <pre><code class="language-bash">cd examples/01-unit-tests-java
 
@@ -561,12 +561,12 @@ mvn test -Dtest=CalculatorTest
 # Uruchom konkretny test
 mvn test -Dtest=CalculatorTest#testAdd_PositiveNumbers</code></pre>
 
-            <h3>💡 IntelliJ IDEA</h3>
+            <h3><span class="hud-tag">RUN-02</span> IntelliJ IDEA</h3>
 
             <p><strong>Metoda 1: Uruchom całą klasę testową</strong></p>
             <ol style="margin-left: 2rem;">
                 <li>Otwórz plik <code>CalculatorTest.java</code></li>
-                <li>Kliknij zielony play ▶️ obok nazwy klasy</li>
+                <li>Kliknij zielony przycisk „Run” obok nazwy klasy</li>
                 <li>Wybierz "Run 'CalculatorTest'"</li>
             </ol>
 
@@ -579,11 +579,11 @@ mvn test -Dtest=CalculatorTest#testAdd_PositiveNumbers</code></pre>
 
             <p><strong>Wynik w IntelliJ:</strong></p>
             <p style="margin-left: 2rem; color: #06ffa5;">
-                ✅ Green bar = Wszystkie testy przeszły<br>
-                ❌ Red bar = Jakiś test się nie powiedzie
+                <span class="status-tag status-ok">PASS</span> Green bar = wszystkie testy przeszły<br>
+                <span class="status-tag status-error">FAIL</span> Red bar = jakiś test się nie powiódł
             </p>
 
-            <h3>🔍 VS Code</h3>
+            <h3><span class="hud-tag">RUN-03</span> VS Code</h3>
 
             <p>
                 Po zainstalowaniu "Extension Pack for Java":
@@ -604,7 +604,7 @@ mvn test -Dtest=CalculatorTest#testAdd_PositiveNumbers</code></pre>
                 Możesz go używać jako szablonu dla swoich testów.
             </p>
 
-            <h3>📦 Struktura projektu</h3>
+            <h3><span class="hud-tag">PRJ-01</span> Struktura projektu</h3>
 
             <pre><code>01-unit-tests-java/
 ├── src/
@@ -616,7 +616,7 @@ mvn test -Dtest=CalculatorTest#testAdd_PositiveNumbers</code></pre>
 │       └── StringUtilsTest.java   ← Testy (TODO do uzupełnienia)
 └── pom.xml                         ← Konfiguracja Maven</code></pre>
 
-            <h3>🧪 Metody do testowania w Calculator:</h3>
+            <h3><span class="hud-tag">PRJ-02</span> Metody do testowania w Calculator:</h3>
             <ul style="margin-left: 2rem;">
                 <li><code>add(a, b)</code> - dodawanie</li>
                 <li><code>subtract(a, b)</code> - odejmowanie</li>
@@ -626,7 +626,7 @@ mvn test -Dtest=CalculatorTest#testAdd_PositiveNumbers</code></pre>
                 <li><code>isPositive(n)</code> - sprawdzenie czy dodatnia</li>
             </ul>
 
-            <h3>📝 Metody do testowania w StringUtils:</h3>
+            <h3><span class="hud-tag">PRJ-03</span> Metody do testowania w StringUtils:</h3>
             <ul style="margin-left: 2rem;">
                 <li><code>reverse(text)</code> - odwrócenie stringa</li>
                 <li><code>capitalize(text)</code> - kapitalizacja</li>
@@ -635,10 +635,10 @@ mvn test -Dtest=CalculatorTest#testAdd_PositiveNumbers</code></pre>
                 <li><code>isBlank(text)</code> - sprawdzenie białych znaków</li>
             </ul>
 
-            <h3>🚀 Jak zacząć?</h3>
+            <h3><span class="hud-tag">PRJ-04</span> Jak zacząć?</h3>
 
             <p>
-                👉 Przejdź do: <a href="../../examples/01-unit-tests-java/">
+                Przejdź do modułu: <a href="../../examples/01-unit-tests-java/">
                     Projekt Maven - 01-unit-tests-java/
                 </a>
             </p>
@@ -681,15 +681,15 @@ mvn test -Dtest=CalculatorTest#testAdd_PositiveNumbers</code></pre>
             </ol>
 
             <p style="margin-top: 2rem; padding: 1.5rem; background: rgba(0, 217, 255, 0.1); border-left: 4px solid var(--color-accent-cyan);">
-                <strong>💡 Pamiętaj:</strong> Testy nie są dodatkiem do programowania - 
+                <strong>WAŻNE:</strong> Testy nie są dodatkiem do programowania -
                 to nieodłączna część budowania dobrego oprogramowania!
             </p>
         </section>
     </main>
 
     <footer>
-        <p>📍 <strong>MPR Lectures</strong> - Wstęp do testów jednostkowych w Java</p>
-        <p>🔗 <a href="../../index.html">Wróć do listy wykładów</a></p>
+        <p><strong>MPR Lectures</strong> - Wstęp do testów jednostkowych w Java</p>
+        <p><a href="../index.html#lectures">Wróć do listy wykładów</a></p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
