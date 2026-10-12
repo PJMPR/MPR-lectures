@@ -166,12 +166,46 @@ public class CalculatorTest {
     // Sprawdź mnożenie liczby ujemnej przez dodatnią
     // Oczekiwany wynik: liczba ujemna
 
+    @Test
+    public void testMultiply_NegativeAndPositive() {
+        // Arrange
+        int first_number = -4;
+        int second_number = 5;
+        int expected_result = -20;
+        // Act
+        int result = calculator.multiply(first_number, second_number);
+
+        // Assert
+        assertEquals(expected_result, result, "-4 * 5 powinno równać się -20");
+    }
+
     // TODO: Napisz test dla testDivide_NegativeNumbers
     // Sprawdź dzielenie liczb ujemnych
     // Edge case: (-10) / (-2) powinno dać 5, (-10) / 2 powinno dać -5
+    @Test
+    public void testDivide_NegativeNumbers() {
+        // Arrange
+        int a = -10;
+        int b1 = -2;
+        int b2 = 2;
+
+        // Act
+        int result1 = calculator.divide(a, b1);
+        int result2 = calculator.divide(a, b2);
+
+        // Assert
+        assertEquals(5, result1, "(-10) / (-2) powinno równać się 5");
+        assertEquals(-5, result2, "(-10) / 2 powinno równać się -5");
+    }
 
     // TODO: Napisz test dla testIsEven_WithNegativeNumbers
     // Rozszerz test isEven o dodatkowe przypadki z liczbami ujemnymi
+    @Test
+    public void testIsEven_WithNegativeNumbers() {
+        // Sprawdzenie liczb ujemnych
+        assertTrue(calculator.isEven(-4), "-4 jest parzyste");
+        assertFalse(calculator.isEven(-3), "-3 nie jest parzyste");
+    }
 
     // TODO: Napisz test dla testAdd_LargeNumbers
     // Sprawdź dodawanie dużych liczb (zbliżających się do Integer.MAX_VALUE)

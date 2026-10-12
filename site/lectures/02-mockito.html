@@ -3,41 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>02 - Zaawansowane testowanie - Mockito | MPR Lectures</title>
+    <title>Hamcrest i Mockito w testach Java | MPR Lectures</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">⚡ MPR</div>
-            <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../index.html#lectures">Wykłady</a></li>
-            </ul>
-        </nav>
-    </header>
-
+    <header><nav><div class="logo">MPR</div><ul class="nav-links">
+        <li><a href="../index.html">Home</a></li><li><a href="#contents">Spis treści</a></li><li><a href="#laboratory">Projekt</a></li>
+    </ul></nav></header>
     <main>
-        <section style="text-align: center; padding: 4rem 2rem;">
-            <h1 class="animate-glow">02 - Zaawansowane testowanie - Mockito</h1>
-            <p style="font-size: 1.2rem; margin-top: 2rem; color: #9d4edd;">
-                🚀 Wkrótce dostępne...
-            </p>
-            <p style="margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                Ten wykład będzie obejmować mockowanie zależności, Spy, stubbing i weryfikację interakcji
-                z użyciem frameworku Mockito.
-            </p>
-            <div style="margin-top: 3rem;">
-                <a href="../index.html#lectures" class="btn">Wróć do listy wykładów</a>
-                <a href="01-unit-tests.html" class="btn btn-secondary" style="margin-left: 1rem;">Poprzedni wykład</a>
-            </div>
+        <section id="top" style="text-align:center">
+            <h1 class="animate-glow">Hamcrest + Mockito</h1>
+            <p style="font-size:1.1rem;color:#9d4edd;margin-top:1.5rem">CZYTELNE ASERCJE // IZOLACJA ZALEŻNOŚCI // TESTY ZACHOWANIA</p>
+            <p style="max-width:760px;margin:2rem auto 0">Jak testować logikę biznesową bez bazy danych, systemu płatności i poczty, a przy tym otrzymywać komunikaty błędów, które rzeczywiście pomagają.</p>
         </section>
-    </main>
 
-    <footer>
-        <p>📍 <strong>MPR Lectures</strong> - Zaawansowane testowanie</p>
-        <p>🔗 <a href="../index.html#lectures">Wróć do listy wykładów</a></p>
-    </footer>
+        <section id="contents"><h2>Spis treści</h2><ol style="margin-left:2rem;line-height:2">
+            <li><a href="#test-design">Co sprawdza dobry test jednostkowy</a></li><li><a href="#hamcrest">Hamcrest i język matcherów</a></li>
+            <li><a href="#mockito">Mockito i izolacja zależności</a></li><li><a href="#verification">Weryfikacja interakcji i argumentów</a></li>
+            <li><a href="#pitfalls">Typowe błędy</a></li><li><a href="#laboratory">Projekt demonstracyjny i zadania</a></li>
+        </ol></section>
+
+        <section id="goals"><h2>1. Cele wykładu</h2><p>Po zajęciach student potrafi:</p><ul style="margin-left:2rem">
+            <li>budować czytelne asercje Hamcrest dla wartości, obiektów i kolekcji,</li><li>odróżnić mock, stub, fake i spy,</li>
+            <li>izolować zależności klasy za pomocą Mockito,</li><li>sprawdzać wynik oraz istotne efekty uboczne,</li>
+            <li>rozpoznać test kruchy i nadmiernie związany z implementacją.</li>
+        </ul></section>
+
+        <section id="test-design"><h2>2. Stan i zachowanie</h2><p>Test może obserwować dwa rodzaje efektów.</p><table>
+            <thead><tr><th>Rodzaj</th><th>Pytanie</th><th>Przykład</th></tr></thead><tbody>
+            <tr><td><strong>Stan</strong></td><td>Co zwrócił lub zmienił kod?</td><td>Zamówienie ma status <code>PAID</code>.</td></tr>
+            <tr><td><strong>Zachowanie</strong></td><td>Z kim i jak kod się komunikował?</td><td>Repozytorium zapisało zamówienie dokładnie raz.</td></tr>
+            </tbody></table><p style="margin-top:1.5rem">Hamcrest dobrze opisuje stan. Mockito pozwala kontrolować i obserwować współpracowników testowanej klasy.</p>
+        </section>
+
+        <section id="test-doubles"><h2>3. Duble testowe</h2><table><thead><tr><th>Dubel</th><th>Rola</th><th>Przykład</th></tr></thead><tbody>
+            <tr><td>Dummy</td><td>Wypełnia wymagany parametr, ale test go nie używa.</td><td>Nieistotny obiekt konfiguracji.</td></tr>
+            <tr><td>Stub</td><td>Zwraca przygotowane odpowiedzi.</td><td>Bramka zwraca zaakceptowaną płatność.</td></tr>
+            <tr><td>Fake</td><td>Ma uproszczoną, działającą implementację.</td><td>Repozytorium przechowujące dane w mapie.</td></tr>
+            <tr><td>Mock</td><td>Rejestruje interakcje do późniejszej weryfikacji.</td><td>Sprawdzenie wysłania potwierdzenia.</td></tr>
+            <tr><td>Spy</td><td>Opakowuje prawdziwy obiekt i pozwala nadpisać część zachowania.</td><td>Lista, która naprawdę dodaje elementy.</td></tr>
+        </tbody></table><p style="margin-top:1.5rem">Mockito technicznie tworzy mocki, ale ten sam obiekt często pełni w teście rolę stuba i mocka.</p></section>
+
+        <section id="hamcrest"><h2>4. Hamcrest: asercja jako zdanie</h2><pre><code class="language-java">import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+assertThat(order.getStatus(), is(OrderStatus.PAID));
+assertThat(order.getTotal(), comparesEqualTo(new BigDecimal("149.90")));
+assertThat(order.getCustomerEmail(), allOf(
+        containsString("@"),
+        endsWith("example.com")
+));</code></pre><p>Matcher opisuje oczekiwanie i potrafi wyjaśnić niedopasowanie. Błąd pokazuje oczekiwaną regułę oraz rzeczywistą wartość.</p></section>
+
+        <section id="hamcrest-maven"><h2>5. Konfiguracja Hamcrest</h2><pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.hamcrest&lt;/groupId&gt;
+    &lt;artifactId&gt;hamcrest&lt;/artifactId&gt;
+    &lt;version&gt;3.0&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre><p>W JUnit 5 używamy <code>org.hamcrest.MatcherAssert.assertThat</code>. Hamcrest może działać obok asercji JUnit, więc migracja nie wymaga przepisywania całego zestawu testów.</p></section>
+
+        <section id="matcher-tour"><h2>6. Najczęściej używane matchery</h2><table><thead><tr><th>Obszar</th><th>Matchery</th></tr></thead><tbody>
+            <tr><td>Wartości i typy</td><td><code>is</code>, <code>equalTo</code>, <code>not</code>, <code>nullValue</code>, <code>instanceOf</code></td></tr>
+            <tr><td>Liczby</td><td><code>greaterThan</code>, <code>lessThanOrEqualTo</code>, <code>closeTo</code>, <code>comparesEqualTo</code></td></tr>
+            <tr><td>Tekst</td><td><code>containsString</code>, <code>startsWith</code>, <code>equalToIgnoringCase</code></td></tr>
+            <tr><td>Kolekcje</td><td><code>hasSize</code>, <code>hasItem</code>, <code>contains</code>, <code>containsInAnyOrder</code>, <code>everyItem</code></td></tr>
+            <tr><td>Obiekty</td><td><code>hasProperty</code>, <code>sameInstance</code>, <code>hasToString</code></td></tr>
+            <tr><td>Kompozycja</td><td><code>allOf</code>, <code>anyOf</code>, <code>both(...).and(...)</code></td></tr>
+        </tbody></table></section>
+
+        <section id="collections"><h2>7. Kolejność tylko wtedy, gdy wymaga tego domena</h2><pre><code class="language-java">List&lt;String&gt; ids = List.of("ORD-101", "ORD-102", "ORD-103");
+
+assertThat(ids, contains("ORD-101", "ORD-102", "ORD-103"));
+assertThat(ids, containsInAnyOrder(
+        "ORD-103", "ORD-101", "ORD-102"));
+assertThat(ids, everyItem(startsWith("ORD-")));</code></pre><p>Zbyt dokładna asercja tworzy fałszywe alarmy podczas refaktoryzacji. Sprawdzaj tylko cechę, którą opisuje nazwa testu.</p></section>
+
+        <section id="custom-matcher"><h2>8. Własny matcher domenowy</h2><pre><code class="language-java">public final class PaidOrderMatcher
+        extends TypeSafeDiagnosingMatcher&lt;Order&gt; {
+
+    protected boolean matchesSafely(Order order, Description mismatch) {
+        if (order.getStatus() != OrderStatus.PAID) {
+            mismatch.appendText("status was ")
+                    .appendValue(order.getStatus());
+            return false;
+        }
+        return true;
+    }
+
+    public void describeTo(Description description) {
+        description.appendText("a paid order");
+    }
+}</code></pre><p><code>assertThat(order, is(paidOrderWithId("ORD-101")));</code> wyraża regułę biznesową zamiast struktury obiektu.</p></section>
+
+        <section id="mockito"><h2>9. Mockito: testowana klasa i jej granice</h2><pre><code class="language-java">@ExtendWith(MockitoExtension.class)
+class OrderServiceTest {
+    @Mock OrderRepository repository;
+    @Mock PaymentGateway paymentGateway;
+    @Mock NotificationService notificationService;
+
+    @InjectMocks OrderService service;
+}</code></pre><p><code>@Mock</code> tworzy kontrolowane zależności. <code>@InjectMocks</code> buduje testowany obiekt i przekazuje mu mocki. Konstruktor nadal pozostaje najlepszym sposobem wstrzykiwania zależności w kodzie produkcyjnym.</p></section>
+
+        <section id="mockito-maven"><h2>10. Konfiguracja Mockito z JUnit 5</h2><pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.mockito&lt;/groupId&gt;
+    &lt;artifactId&gt;mockito-junit-jupiter&lt;/artifactId&gt;
+    &lt;version&gt;5.24.0&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre><p>Mockito 5 wymaga co najmniej Java 11. Rozszerzenie JUnit inicjalizuje adnotacje i włącza kontrolę zbędnego stubowania.</p></section>
+
+        <section id="stubbing"><h2>11. Stubbing: przygotowanie odpowiedzi</h2><pre><code class="language-java">when(paymentGateway.charge(
+        "ORD-101", new BigDecimal("149.90")))
+    .thenReturn(PaymentResult.approved("TX-777"));
+
+when(repository.save(any(Order.class)))
+    .thenAnswer(invocation -&gt; invocation.getArgument(0));</code></pre><p>Stub opisuje warunek wejściowy i odpowiedź zależności. Brak konfiguracji daje wartości domyślne, między innymi <code>null</code>, <code>0</code>, <code>false</code> lub pustą kolekcję zależnie od typu.</p></section>
+
+        <section id="matchers-warning"><h2>12. Matchery argumentów Mockito</h2><pre><code class="language-java">when(paymentGateway.charge(
+        eq("ORD-102"),
+        any(BigDecimal.class)))
+    .thenReturn(PaymentResult.declined());</code></pre><p>Jeżeli jeden argument używa matchera Mockito, wszystkie argumenty w tym wywołaniu także muszą używać matcherów. <code>eq</code>, <code>any</code> i <code>argThat</code> pochodzą z Mockito, a nie z Hamcrest.</p></section>
+
+        <section id="verification"><h2>13. Weryfikacja ważnych interakcji</h2><pre><code class="language-java">verify(repository).save(order);
+verify(notificationService)
+    .sendOrderConfirmation("ada@example.com", "ORD-101");
+
+verify(repository, never()).save(any());
+verifyNoInteractions(notificationService);</code></pre><p>Weryfikuj efekty widoczne na granicy systemu. Nie sprawdzaj każdego pomocniczego wywołania tylko dlatego, że Mockito to umożliwia.</p></section>
+
+        <section id="captor"><h2>14. ArgumentCaptor: co opuściło testowaną klasę</h2><pre><code class="language-java">ArgumentCaptor&lt;Order&gt; captor =
+        ArgumentCaptor.forClass(Order.class);
+
+verify(repository).save(captor.capture());
+assertThat(captor.getValue(),
+        is(paidOrderWithId("ORD-101")));</code></pre><p>Captor przydaje się, gdy kod tworzy lub modyfikuje argument przed przekazaniem go dalej. Do prostego porównania wystarczy zwykle <code>eq</code>.</p></section>
+
+        <section id="order"><h2>15. Kolejność interakcji</h2><pre><code class="language-java">InOrder sequence = inOrder(
+        paymentGateway, repository, notificationService);
+
+sequence.verify(paymentGateway).charge(any(), any());
+sequence.verify(repository).save(order);
+sequence.verify(notificationService)
+        .sendOrderConfirmation(any(), any());</code></pre><p><code>InOrder</code> stosuj wyłącznie wtedy, gdy kolejność ma znaczenie biznesowe. W przeciwnym razie test utrwali przypadkowy szczegół implementacji.</p></section>
+
+        <section id="exceptions"><h2>16. Ścieżka błędu</h2><pre><code class="language-java">when(paymentGateway.charge(any(), any()))
+    .thenReturn(PaymentResult.declined());
+
+PaymentRejectedException exception = assertThrows(
+    PaymentRejectedException.class,
+    () -&gt; service.placeOrder(order));
+
+assertThat(exception.getMessage(),
+    is("Payment rejected for order ORD-102"));
+verify(repository, never()).save(any());</code></pre><p>Dobry test błędu sprawdza wyjątek i brak niedozwolonych efektów ubocznych.</p></section>
+
+        <section id="void-methods"><h2>17. Metody void i wyjątki</h2><pre><code class="language-java">doThrow(new MailServerException())
+    .when(notificationService)
+    .sendOrderConfirmation(any(), any());
+
+doNothing()
+    .when(notificationService)
+    .sendOrderConfirmation(any(), any());</code></pre><p>Rodzina <code>doReturn</code>, <code>doThrow</code> i <code>doAnswer</code> obsługuje metody <code>void</code>. Jest także bezpieczniejsza podczas stubowania spy, ponieważ nie wywołuje prawdziwej metody w fazie Arrange.</p></section>
+
+        <section id="spy"><h2>18. Spy: prawdziwy obiekt pod obserwacją</h2><pre><code class="language-java">List&lt;String&gt; auditLog = spy(new ArrayList&lt;&gt;());
+auditLog.add("payment approved");
+
+assertThat(auditLog, contains("payment approved"));
+verify(auditLog).add("payment approved");
+
+doReturn(42).when(auditLog).size();</code></pre><p>Spy domyślnie uruchamia prawdziwy kod. Korzystaj z niego oszczędnie, ponieważ częściowe mockowanie często sygnalizuje klasę zbyt trudną do rozdzielenia.</p></section>
+
+        <section id="pitfalls"><h2>19. Typowe błędy</h2><table><thead><tr><th>Objaw</th><th>Skutek</th><th>Lepszy kierunek</th></tr></thead><tbody>
+            <tr><td>Mockowanie obiektów wartości</td><td>Test traci realne reguły domeny.</td><td>Twórz prawdziwe <code>Order</code>, <code>Money</code> i kolekcje.</td></tr>
+            <tr><td>Weryfikacja każdej metody</td><td>Refaktoryzacja łamie test mimo zachowania funkcji.</td><td>Sprawdzaj wynik i istotne efekty na granicach.</td></tr>
+            <tr><td><code>any()</code> wszędzie</td><td>Test akceptuje błędne dane.</td><td>Używaj dokładnych wartości dla danych ważnych biznesowo.</td></tr>
+            <tr><td>Wiele niepowiązanych scenariuszy</td><td>Błąd trudno zlokalizować.</td><td>Jeden scenariusz i jedna przyczyna porażki na test.</td></tr>
+            <tr><td>Deep stubs</td><td>Test odtwarza strukturę implementacji.</td><td>Wprowadź prostszą granicę lub adapter.</td></tr>
+        </tbody></table></section>
+
+        <section id="full-example"><h2>20. Pełny scenariusz: zaakceptowana płatność</h2><pre><code class="language-java">@Test
+void placeOrder_paymentApproved_savesPaidOrderAndSendsConfirmation() {
+    Order order = order("ORD-101", "ada@example.com", "149.90");
+    when(paymentGateway.charge("ORD-101", new BigDecimal("149.90")))
+            .thenReturn(PaymentResult.approved("TX-777"));
+    when(repository.save(any(Order.class)))
+            .thenAnswer(invocation -&gt; invocation.getArgument(0));
+
+    Order result = service.placeOrder(order);
+
+    assertThat(result, is(paidOrderWithId("ORD-101")));
+    verify(repository).save(order);
+    verify(notificationService)
+            .sendOrderConfirmation("ada@example.com", "ORD-101");
+}</code></pre></section>
+
+        <section id="laboratory"><h2>21. Projekt demonstracyjny</h2><p>Projekt <code>02-hamcrest-mockito</code> zawiera system zamówień, komplet działających testów i zadania do samodzielnego wykonania.</p><pre><code class="language-bash">cd examples/02-hamcrest-mockito
+mvn test</code></pre><div style="margin-top:2rem"><a class="btn" href="../../examples/02-hamcrest-mockito/README.md">Otwórz instrukcję projektu</a></div></section>
+
+        <section id="exercises"><h2>22. Zadania laboratoryjne</h2><ol style="margin-left:2rem;line-height:1.8">
+            <li>Dodaj rabat i sprawdź kwotę przekazaną do bramki płatności.</li><li>Dodaj walidację adresu e-mail oraz test braku interakcji z zależnościami.</li>
+            <li>Dodaj rezerwację towaru i zwolnienie rezerwacji po odrzuconej płatności.</li><li>Napisz matcher <code>orderWithTotal</code> z opisem rzeczywistej wartości.</li>
+        </ol><p style="margin-top:1.5rem">Każdy test powinien zachować układ Arrange, Act, Assert i mieć nazwę opisującą warunek oraz rezultat.</p></section>
+
+        <section id="summary"><h2>23. Podsumowanie</h2><ul style="margin-left:2rem">
+            <li>Hamcrest opisuje oczekiwany stan za pomocą komponowalnych matcherów.</li><li>Mockito odcina wolne lub niedeterministyczne zależności.</li>
+            <li>Stubbing przygotowuje odpowiedzi, a verification sprawdza ważne interakcje.</li><li>Najtrwalszy test sprawdza zachowanie publiczne i pomija nieistotne szczegóły implementacji.</li>
+        </ul></section>
+
+        <section id="sources"><h2>Materiały</h2><ul style="margin-left:2rem;line-height:1.8">
+            <li><a href="https://hamcrest.org/JavaHamcrest/tutorial" target="_blank" rel="noopener">Hamcrest Tutorial</a></li>
+            <li><a href="https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html" target="_blank" rel="noopener">Mockito API</a></li>
+            <li><a href="https://junit.org/junit5/docs/current/user-guide/" target="_blank" rel="noopener">JUnit 5 User Guide</a></li>
+        </ul></section>
+
+        <section style="text-align:center"><a href="01-unit-tests.html" class="btn btn-secondary">Poprzedni wykład</a><a href="../index.html#lectures" class="btn" style="margin-left:1rem">Lista wykładów</a><a href="03-tdd.html" class="btn btn-secondary" style="margin-left:1rem">Następny wykład</a></section>
+    </main>
+    <footer><p><strong>MPR Lectures</strong> — Hamcrest i Mockito</p><p><a href="#top">Wróć na początek</a></p></footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script><script>hljs.highlightAll();</script><script src="../js/main.js"></script>
 </body>
 </html>
