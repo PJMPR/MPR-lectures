@@ -10,7 +10,6 @@ public final class ElevatorController {
     }
 
     public void requestFloor(int floor) {
-        // TODO TDD: nie twórz kolejki, dopóki pierwszy test jej nie wymaga.
     }
 
     public RideResult serveNext() {
