@@ -3,7 +3,8 @@ package pl.edu.pjatk.mpr.orders;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-public final class PaidOrderMatcher extends TypeSafeDiagnosingMatcher<Order> {
+public final class PaidOrderMatcher
+        extends TypeSafeDiagnosingMatcher<Order> {
     private final String expectedId;
 
     private PaidOrderMatcher(String expectedId) {

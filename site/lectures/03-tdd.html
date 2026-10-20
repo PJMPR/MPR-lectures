@@ -1,41 +1,51 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>03 - Test-Driven Development (TDD) | MPR Lectures</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDD: sterownik windy | MPR Lectures</title>
+    <link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">⚡ MPR</div>
-            <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../index.html#lectures">Wykłady</a></li>
-            </ul>
-        </nav>
-    </header>
+<header><nav><div class="logo">MPR</div><ul class="nav-links"><li><a href="../index.html">Home</a></li><li><a href="#theory">Teoria</a></li><li><a href="#live-demo">Live demo</a></li></ul></nav></header>
+<main>
+<section id="top"><h1 class="animate-glow">TDD: sterownik windy</h1><p style="font-size:1.1rem;color:#9d4edd;margin-top:1.5rem">RED // GREEN // REFACTOR</p><p>90-minutowy tutorial: 30 minut teorii i 60 minut implementacji jednej windy sterowanej testami z Hamcrest i Mockito.</p></section>
+<section id="contents"><h2>Plan misji</h2><ol style="line-height:2"><li><a href="#theory">Dlaczego i kiedy TDD?</a></li><li><a href="#cycle">Cykl Red–Green–Refactor</a></li><li><a href="#rules">Reguły pracy i pułapki</a></li><li><a href="#domain">Domena: jedna winda</a></li><li><a href="#live-demo">Scenariusz godzinnego live codingu</a></li><li><a href="#checklist">Ściąga prowadzącego</a></li></ol></section>
+<section id="goals"><h2>Cele wykładu</h2><p>Po zajęciach student potrafi:</p><ul><li>przeprowadzić mały problem przez wielokrotne cykle Red–Green–Refactor,</li><li>wybrać najmniejszy kolejny przykład, który wnosi nową informację,</li><li>odróżnić implementację minimalną od docelowej architektury,</li><li>opisywać stan za pomocą Hamcrest, a granice systemu izolować za pomocą Mockito,</li><li>refaktoryzować wyłącznie przy zielonym zestawie testów.</li></ul></section>
+<section id="theory"><h2>1. TDD to informacja zwrotna, nie liczba testów</h2><p>W TDD test jest pierwszym klientem projektowanego API. Zanim powstanie implementacja, zapisujemy konkretny przykład zachowania i obserwujemy jego porażkę. Dopiero potem tworzymy najmniejszy kod spełniający przykład.</p><table><thead><tr><th>Test-first</th><th>Test-Driven Development</th></tr></thead><tbody><tr><td>Test zostaje napisany przed kodem.</td><td>Każdy mały test wpływa na następny krok projektu.</td></tr><tr><td>Może opisywać od razu całą funkcję.</td><td>Zakres rośnie przez konkretne przykłady.</td></tr><tr><td>Refaktoryzacja jest opcjonalna.</td><td>Refaktoryzacja jest trzecią, obowiązkową fazą.</td></tr></tbody></table><p>TDD nie gwarantuje dobrego projektu. Zapewnia natomiast krótką pętlę informacji zwrotnej, która pozwala bezpiecznie poprawiać decyzje projektowe.</p></section>
+<section id="cycle"><h2>2. Red–Green–Refactor</h2><table><thead><tr><th>Faza</th><th>Pytanie</th><th>Warunek zakończenia</th></tr></thead><tbody><tr><td><span class="status-tag status-error">RED</span></td><td>Jakie jedno nowe zachowanie jest potrzebne?</td><td>Test nie przechodzi z właściwego powodu.</td></tr><tr><td><span class="status-tag status-ok">GREEN</span></td><td>Jaki najmniejszy kod spełni przykład?</td><td>Cały zestaw testów jest zielony.</td></tr><tr><td><span class="status-tag">REFACTOR</span></td><td>Co można uprościć bez zmiany zachowania?</td><td>Kod jest czytelniejszy, a testy nadal przechodzą.</td></tr></tbody></table><p><strong>Najważniejszy rytm:</strong> uruchamiaj testy po każdej fazie. Czerwony test potwierdza, że test potrafi wykryć brak zachowania. Zielony zestaw daje bezpieczny moment na zmianę struktury.</p></section>
+<section id="laws"><h2>3. Trzy prawa TDD</h2><ol><li>Nie pisz kodu produkcyjnego, dopóki nie istnieje test, który nie przechodzi.</li><li>Nie pisz więcej testu, niż potrzeba do uzyskania porażki — błąd kompilacji także jest porażką.</li><li>Nie pisz więcej kodu produkcyjnego, niż potrzeba do przejścia bieżącego testu.</li></ol><p>To ograniczenia treningowe, które wymuszają małe kroki. W praktyce wielkość kroku dobieramy do ryzyka i znajomości problemu.</p></section>
+<section id="rules"><h2>4. Jak wybierać następny test</h2><ul><li>Zacznij od najprostszego przykładu bez wyjątków i efektów ubocznych.</li><li>Dodawaj po jednej osi zmienności: inny kierunek, błąd drzwi, przeciążenie, kolejka.</li><li>Nazwa testu ma opisywać warunek i obserwowalny rezultat.</li><li>Mockuj granice systemu, nie obiekty wartości ani prywatne szczegóły implementacji.</li><li>Nie przewiduj przyszłej architektury. Wydzielaj abstrakcję, gdy przykłady pokażą powtórzenie.</li></ul></section>
+<section id="double-loop"><h2>5. Hamcrest i Mockito w pętli TDD</h2><pre><code class="language-java">assertThat(result.getStatus(), is(RideStatus.MOVING));
+assertThat(controller.pendingFloors(), contains(7, 2));
 
-    <main>
-        <section style="text-align: center; padding: 4rem 2rem;">
-            <h1 class="animate-glow">03 - Test-Driven Development (TDD)</h1>
-            <p style="font-size: 1.2rem; margin-top: 2rem; color: #9d4edd;">
-                🚀 Wkrótce dostępne...
-            </p>
-            <p style="margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                Red-Green-Refactor cykl, pisanie testów najpierw, refactoring kodu.
-            </p>
-            <div style="margin-top: 3rem;">
-                <a href="../index.html#lectures" class="btn">Wróć do listy wykładów</a>
-            </div>
-        </section>
-    </main>
+verify(alarm).signal("OVERLOAD");
+verifyNoInteractions(doors, motor);</code></pre><p>Hamcrest opisuje zwrócony stan i kolejkę językiem zbliżonym do wymagania. Mockito sprawdza istotne komunikaty wysyłane do urządzeń. Test nie powinien odtwarzać każdej instrukcji metody.</p></section>
+<section id="pitfalls"><h2>6. Typowe pułapki</h2><table><thead><tr><th>Objaw</th><th>Reakcja</th></tr></thead><tbody><tr><td>Test od razu wymaga pięciu zachowań.</td><td>Wybierz jeden przykład i odłóż resztę na listę kolejnych testów.</td></tr><tr><td>Test jest zielony przed implementacją.</td><td>Sprawdź, czy test rzeczywiście wykonuje właściwy kod i ma znaczącą asercję.</td></tr><tr><td>Green trwa kilkanaście minut.</td><td>Cofnij się i zmniejsz krok.</td></tr><tr><td>Refaktoryzacja zmienia zachowanie.</td><td>Najpierw dodaj test zachowania; potem zmieniaj strukturę.</td></tr><tr><td>Mockito weryfikuje każdą metodę.</td><td>Zostaw tylko interakcje ważne dla bezpieczeństwa lub wyniku biznesowego.</td></tr></tbody></table></section>
+<section id="domain"><h2>7. Domena demonstracji</h2><p>Sterujemy jedną windą. Wywołanie <code>requestFloor</code> dodaje piętro do kolejki, a <code>serveNext</code> obsługuje najstarsze zgłoszenie. Ruch jest synchroniczną komendą — nie modelujemy czasu, animacji ani współbieżności.</p><table><thead><tr><th>Element</th><th>Rola w teście</th></tr></thead><tbody><tr><td><code>FloorSensor</code></td><td>Stub podający aktualne piętro.</td></tr><tr><td><code>LoadSensor</code></td><td>Stub informujący o przeciążeniu.</td></tr><tr><td><code>DoorController</code></td><td>Mock drzwi i ich czujnika zamknięcia.</td></tr><tr><td><code>ElevatorMotor</code></td><td>Mock odbierający komendę ruchu.</td></tr><tr><td><code>AlarmSystem</code></td><td>Mock odbierający kod alarmu.</td></tr></tbody></table></section>
+<section id="live-demo"><h2>8. Live demo — 60 minut</h2><table><thead><tr><th>Czas</th><th>Iteracja</th><th>Nowa informacja projektowa</th></tr></thead><tbody><tr><td>0–5 min</td><td>Uruchomienie projektu i lista zachowań</td><td>Najpierw wymaganie, potem API.</td></tr><tr><td>5–13 min</td><td>Piętro jest już osiągnięte</td><td>Powstają wynik i status <code>ALREADY_THERE</code>.</td></tr><tr><td>13–23 min</td><td>Jazda w górę</td><td>Drzwi muszą zamknąć się przed silnikiem.</td></tr><tr><td>23–30 min</td><td>Jazda w dół</td><td>Pojawia się obliczany <code>Direction</code>.</td></tr><tr><td>30–40 min</td><td>Drzwi nie zamknęły się</td><td>Alarm i brak niedozwolonego ruchu.</td></tr><tr><td>40–49 min</td><td>Winda jest przeciążona</td><td>Wczesne zakończenie i zachowanie zgłoszenia.</td></tr><tr><td>49–56 min</td><td>Kolejka FIFO</td><td>Kolekcja staje się częścią publicznego zachowania.</td></tr><tr><td>56–60 min</td><td>Refaktoryzacja i podsumowanie</td><td>Usunięcie duplikacji przy zielonych testach.</td></tr></tbody></table></section>
+<section id="first-cycle"><h2>9. Pierwszy cykl na żywo</h2><h3>RED — najpierw przykład</h3><pre><code class="language-java">@Test
+void floorAlreadyReached_doesNotStartAnyDevice() {
+    when(floorSensor.currentFloor()).thenReturn(3);
+    controller.requestFloor(3);
 
-    <footer>
-        <p>📍 <strong>MPR Lectures</strong> - Test-Driven Development</p>
-        <p>🔗 <a href="../index.html#lectures">Wróć do listy wykładów</a></p>
-    </footer>
-</body>
-</html>
+    RideResult result = controller.serveNext();
+
+    assertThat(result.getStatus(), is(ALREADY_THERE));
+    verifyNoInteractions(doors, motor, alarm);
+}</code></pre><p>Uruchom test i przeczytaj komunikat błędu. Dopiero teraz dodaj najprostszy kod obsługujący ten przypadek. Nie implementuj jeszcze jazdy.</p><h3>GREEN — minimum</h3><p>Dodaj kolejkę, pobierz aktualne piętro i zwróć wynik dla równych wartości. Zielony test nie oznacza końca pracy.</p><h3>REFACTOR — nazwy i intencja</h3><p>Sprawdź nazwy metod i usuń przypadkowe szczegóły. Uruchom cały zestaw testów przed rozpoczęciem następnego cyklu.</p></section>
+<section id="safety-cycle"><h2>10. Test bezpieczeństwa: kolejność ma znaczenie</h2><pre><code class="language-java">InOrder sequence = inOrder(doors, motor);
+sequence.verify(doors).close();
+sequence.verify(doors).isClosed();
+sequence.verify(motor).move(Direction.UP, 7);</code></pre><p><code>InOrder</code> jest uzasadnione, ponieważ uruchomienie silnika przed zamknięciem drzwi byłoby błędem bezpieczeństwa. Nie używamy kolejności do utrwalania nieistotnych szczegółów.</p></section>
+<section id="project"><h2>11. Projekty do demonstracji</h2><p><code>start</code> zawiera API, pustą implementację i testy wyłączone adnotacją <code>@Disabled</code>. Komentarze w testach prowadzą przez wszystkie iteracje. <code>solution</code> jest kompletnym, działającym punktem ratunkowym.</p><pre><code class="language-bash">cd examples/03-tdd-elevator/start
+mvn test
+
+cd ../solution
+mvn test</code></pre><p>Na początku demo usuń <code>@Disabled</code> tylko z pierwszego testu. Włączaj dokładnie jeden kolejny test po uzyskaniu zielonego zestawu.</p><div style="margin-top:2rem"><a class="btn" href="../../examples/03-tdd-elevator/README.md">Otwórz instrukcję live demo</a></div></section>
+<section id="checklist"><h2>12. Ściąga prowadzącego</h2><ol><li>Powiedz na głos, jakie jedno zachowanie dodajesz.</li><li>Napisz test i pokaż RED.</li><li>Sprawdź, czy test przegrywa z oczekiwanego powodu.</li><li>Napisz najmniejszą implementację i pokaż GREEN.</li><li>Zapytaj studentów, co warto uprościć.</li><li>Po refaktoryzacji ponownie uruchom wszystkie testy.</li><li>Jeśli utkniesz, zmniejsz krok albo zajrzyj do katalogu <code>solution</code>.</li></ol></section>
+<section id="summary"><h2>Podsumowanie</h2><ul><li>Test poprzedza kod i definiuje następny mały krok.</li><li>Red potwierdza wartość testu, Green zamyka zachowanie, Refactor poprawia projekt.</li><li>Hamcrest opisuje rezultat, Mockito kontroluje granice sprzętowe.</li><li>Małe kroki są narzędziem zarządzania ryzykiem, nie celem samym w sobie.</li></ul></section>
+<section style="text-align:center"><a href="02-mockito.html" class="btn btn-secondary">Poprzedni wykład</a><a href="../index.html#lectures" class="btn" style="margin-left:1rem">Lista wykładów</a><a href="04-design-patterns-1.html" class="btn btn-secondary" style="margin-left:1rem">Następny wykład</a></section>
+</main><footer><p><strong>MPR Lectures</strong> — Test-Driven Development</p><p><a href="#top">Wróć na początek</a></p></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script><script>hljs.highlightAll();</script><script src="../js/main.js"></script>
+</body></html>
