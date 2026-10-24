@@ -1,26 +1,17 @@
 # MPR Lectures - Metody Programowania w Java
 
-Kompletna platforma edukacyjna poświęcona programowaniu w Java, testowaniu jednostkowemu, design patternach i best practices.
+Kompletna platforma edukacyjna poświęcona programowaniu w Java, testowaniu jednostkowemu, zasadom SOLID i best practices.
 
 ## 📚 Zawartość
 
-Kurs zawiera **15 wykładów** obejmujących:
+Kurs będzie obejmował **15 wykładów**. Aktualnie ustalone tematy:
 
 1. ✅ **Wstęp do testów jednostkowych w Java** - JUnit 5, AAA Pattern, asercje
 2. **Zaawansowane testowanie - Mockito** - Mockowanie, Spy, stubbing
 3. **Test-Driven Development (TDD)** - Red-Green-Refactor cykl
-4. **Design Patterns - Singleton i Factory** - Wzorce projektowe
-5. **Design Patterns - Observer i Decorator** - Event-driven, composition
-6. **SOLID Principles - S, O, L** - Zasady SOLID
-7. **SOLID Principles - I, D** - Interface Segregation, Dependency Injection
-8. **Collections Framework** - List, Set, Map, wybór struktur danych
-9. **Streams API i Functional Programming** - Lambda, stream operations
-10. **Exception Handling Best Practices** - Try-catch, custom exceptions
-11. **Concurrency - Threads i Synchronization** - Thread lifecycle, monitors
-12. **Concurrency - ExecutorService i Locks** - Thread pools, ReentrantLock
-13. **Reflection API i Annotations** - Metaprogramming, custom annotations
-14. **JUnit 5 Advanced Features** - Parameterized tests, extensions
-15. **Integration Testing i Best Practices** - Test pyramid, CI/CD
+4. **SOLID Principles** - S, O, L, I, D oraz Dependency Injection
+
+Tematy wykładów 5–15 zostaną ustalone później.
 
 ## 🔗 Przejdź do strony
 
