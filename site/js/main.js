@@ -90,6 +90,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .dialogue-modal-nav:disabled { opacity:.35; cursor:not-allowed; }
         .dialogue-modal-stage { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; min-height:0; padding:clamp(1rem,4vw,3rem); overflow:auto; }
         .dialogue-modal-stage .speech { display:flex; flex-direction:column; justify-content:center; min-height:clamp(180px,35vh,380px); font-size:clamp(1rem,2vw,1.45rem); line-height:1.55; }
+        .dialogue-summary-slide { grid-column:1 / -1; display:flex; flex-direction:column; justify-content:center; min-height:clamp(260px,45vh,480px); }
+        .dialogue-summary-slide h3 { margin:0 0 1.5rem; color:#ffb321; font:700 clamp(1rem,2vw,1.35rem) 'Space Mono',monospace; letter-spacing:.06em; text-transform:uppercase; }
+        .dialogue-summary-slide .question, .dialogue-summary-slide > p { margin:0; padding:clamp(1.25rem,3vw,2rem); border:1px solid #ffb321; border-left:5px solid #ffb321; background:rgba(255,179,33,.08); font-size:clamp(1rem,2vw,1.4rem); line-height:1.6; }
         .dialogue-modal-footer { justify-content:center; border-top:1px solid #263b42; }
         .dialogue-modal-counter { min-width:8rem; text-align:center; color:#9fb2b6; font:700 .7rem 'Space Mono',monospace; }
         .dialogue-modal-hint { margin-right:auto; color:#82969a; font:.65rem 'Space Mono',monospace; }
@@ -136,9 +139,29 @@ document.addEventListener('DOMContentLoaded', function() {
       const prev = modal.querySelector('[data-dialogue-action="prev"]');
       const next = modal.querySelector('[data-dialogue-action="next"]');
 
+      const findConversationSummary = dialogue => {
+        let candidate = null;
+        let element = dialogue.nextElementSibling;
+
+        while (element && !element.matches('.dialogue')) {
+          if (element.querySelector('.dialogue')) break;
+          const strongText = element.querySelector('strong')?.textContent?.trim() || '';
+          if (element.matches('.question') ||
+              (element.matches('p') && /^(wniosek|rezultat|podsumowanie)/i.test(strongText))) {
+            candidate = element;
+            break;
+          }
+          element = element.nextElementSibling;
+        }
+
+        return candidate;
+      };
+
       const renderPair = () => {
         stage.replaceChildren(...pairs[pairIndex].map(speech => speech.cloneNode(true)));
-        counter.textContent = `${pairIndex + 1} / ${pairs.length}`;
+        counter.textContent = pairIndex === pairs.length - 1 && stage.querySelector('.dialogue-summary-slide')
+          ? `Podsumowanie · ${pairIndex + 1} / ${pairs.length}`
+          : `${pairIndex + 1} / ${pairs.length}`;
         prev.disabled = pairIndex === 0;
         next.disabled = pairIndex === pairs.length - 1;
         stage.scrollTop = 0;
@@ -158,6 +181,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const speeches = [...dialogue.querySelectorAll(':scope > .speech')];
         pairs = [];
         for (let i = 0; i < speeches.length; i += 2) pairs.push(speeches.slice(i, i + 2));
+
+        const summary = findConversationSummary(dialogue);
+        if (summary) {
+          const summarySlide = document.createElement('div');
+          summarySlide.className = 'dialogue-summary-slide';
+          const summaryTitle = document.createElement('h3');
+          summaryTitle.textContent = 'Podsumowanie rozmowy';
+          summarySlide.append(summaryTitle, summary.cloneNode(true));
+          pairs.push([summarySlide]);
+        }
 
         const section = dialogue.closest('section');
         const headingsBeforeDialogue = [...section.querySelectorAll('h2,h3')]
