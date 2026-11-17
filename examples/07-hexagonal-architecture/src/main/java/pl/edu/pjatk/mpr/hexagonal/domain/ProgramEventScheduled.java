@@ -1,18 +1,13 @@
 package pl.edu.pjatk.mpr.hexagonal.domain;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
-public final class ProgramEventScheduled {
-    private final String eventId;
-    private final String roomId;
-    private final LocalDate date;
-    private final TimeSlot timeSlot;
-
-    public ProgramEventScheduled(String eventId, String roomId, LocalDate date, TimeSlot timeSlot) {
-        this.eventId = eventId; this.roomId = roomId; this.date = date; this.timeSlot = timeSlot;
+public record ProgramEventScheduled(String eventId, String roomId, LocalDate date, TimeSlot timeSlot) {
+    public ProgramEventScheduled {
+        Objects.requireNonNull(eventId);
+        Objects.requireNonNull(roomId);
+        Objects.requireNonNull(date);
+        Objects.requireNonNull(timeSlot);
     }
-    public String eventId() { return eventId; }
-    public String roomId() { return roomId; }
-    public LocalDate date() { return date; }
-    public TimeSlot timeSlot() { return timeSlot; }
 }
