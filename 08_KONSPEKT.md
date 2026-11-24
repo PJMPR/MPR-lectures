@@ -7,7 +7,7 @@
 **Materiał na stronie:** `site/lectures/08-ddd-strategic-design.html`  
 **Kod:** `examples/08-bounded-context`  
 **Orientacyjny czas:** 75–90 minut  
-**Liczba slajdów w trybie prezentacji:** 25
+**Liczba slajdów w trybie prezentacji:** 29
 
 ### Główna myśl wykładu
 
@@ -223,7 +223,24 @@ Przykład: liczba posiłków, `DietaryRequirement`, `MealVoucher`, zdarzenie `At
 
 ---
 
-## Slajd 8 — 3. Język jest lokalny // część 1
+## Slajd 8 — 2. Granice odkrywamy w języku i zmianach // część 2
+
+**Cel:** przedstawić cztery sygnały z tabeli jako wspólny proces odkrywania granicy.
+
+### Co powiedzieć
+
+Przejdź diagram od czterech górnych pól do wyniku:
+
+- konflikt języka: „aktywny” ma różne znaczenia,
+- inne reguły: ważność biletu wymaga innych danych niż układ programu,
+- inne tempo zmian: cennik i harmonogram zmieniają się niezależnie,
+- inny właściciel: odpowiadają za nie różni eksperci.
+
+Podkreśl, że pojedynczy sygnał nie rozstrzyga podziału. Gdy wszystkie zbiegają się w tym samym miejscu, uzasadniają oddzielne konteksty Rejestracji, Programu i Dostępu.
+
+---
+
+## Slajd 9 — 3. Język jest lokalny // część 1
 
 **Cel:** pokazać, że Ubiquitous Language nie musi być globalny.
 
@@ -248,7 +265,23 @@ Odpowiedź: warto dokumentować powiązania i różnice, ale nie należy wymusza
 
 ---
 
-## Slajd 9 — 3. Język jest lokalny // część 2
+## Slajd 10 — 3. Język jest lokalny // część 2
+
+**Cel:** zobrazować trzy lokalne reprezentacje tej samej osoby.
+
+### Co powiedzieć
+
+Zacznij od osoby w świecie rzeczywistym, a następnie przejdź trzema strzałkami:
+
+- Rejestracja widzi `Attendee` i pyta o opłacony bilet,
+- Program widzi `Speaker` i pyta o obecność w opublikowanym programie,
+- Dostęp widzi `BadgeHolder` i pyta o odblokowany identyfikator.
+
+Wspólny identyfikator może łączyć te reprezentacje, ale nie uzasadnia wspólnej encji. Każdy model ma własne reguły i cykl życia.
+
+---
+
+## Slajd 11 — 3. Język jest lokalny // część 3
 
 **Cel:** przejść od języka do struktury kodu.
 
@@ -269,7 +302,7 @@ Nie otwieraj jeszcze kodu przykładu. Najpierw pokaż mapę współpracy.
 
 ---
 
-## Slajd 10 — 4. Context Map: mapa współpracy
+## Slajd 12 — 4. Context Map: mapa współpracy
 
 **Cel:** pokazać relacje i kierunek zależności.
 
@@ -317,7 +350,7 @@ Odpowiedź: nie. Można przesyłać całą encję i stworzyć silne sprzężenie
 
 ---
 
-## Slajd 11 — 5. Wzorce relacji między kontekstami
+## Slajd 13 — 5. Wzorce relacji między kontekstami
 
 **Cel:** przedstawić katalog relacji jako decyzje organizacyjne i modelowe.
 
@@ -353,7 +386,7 @@ Podkreśl, że wzorce można łączyć. Open Host Service często używa Publish
 
 ---
 
-## Slajd 12 — 5.1 Partnership: wspólny sukces
+## Slajd 14 — 5.1 Partnership: wspólny sukces
 
 **Cel:** pokazać relację wymagającą skoordynowanej pracy obu stron.
 
@@ -367,7 +400,7 @@ Omów dwukierunkowe strzałki między Programem i Dostępem. Wejście prelegenta
 
 ---
 
-## Slajd 13 — 5.2 Customer / Supplier: negocjowany kontrakt
+## Slajd 15 — 5.2 Customer / Supplier: negocjowany kontrakt
 
 **Cel:** wyjaśnić wpływ downstreamu na kontrakt upstreamu.
 
@@ -381,7 +414,7 @@ Rejestracja jest dostawcą i właścicielem informacji o bilecie. Dostęp jest k
 
 ---
 
-## Slajd 14 — 5.3 Conformist: świadoma zgodność
+## Slajd 16 — 5.3 Conformist: świadoma zgodność
 
 **Cel:** pokazać sytuację, w której brak tłumaczenia jest rozsądnym kompromisem.
 
@@ -395,7 +428,7 @@ Rozliczenia przyjmują `PaymentCaptured` w znaczeniu nadanym przez Rejestrację.
 
 ---
 
-## Slajd 15 — 5.4 Anti-Corruption Layer: ochrona modelu
+## Slajd 17 — 5.4 Anti-Corruption Layer: ochrona modelu
 
 **Cel:** zobrazować tłumaczenie i odrzucanie nieistotnych danych na granicy.
 
@@ -409,7 +442,7 @@ Przejdź diagram od lewej do prawej: `AttendeeRegistered` należy do Rejestracji
 
 ---
 
-## Slajd 16 — 5.5 Open Host Service: jedno wejście dla wielu
+## Slajd 18 — 5.5 Open Host Service: jedno wejście dla wielu
 
 **Cel:** pokazać stabilny interfejs upstreamu dla wielu odbiorców.
 
@@ -423,7 +456,7 @@ Rejestracja publikuje jedno API używane przez Program, Dostęp i Rozliczenia. D
 
 ---
 
-## Slajd 17 — 5.6 Published Language: wspólny alfabet
+## Slajd 19 — 5.6 Published Language: wspólny alfabet
 
 **Cel:** odróżnić opis formatu od usługi, która go udostępnia.
 
@@ -437,7 +470,7 @@ W centrum diagramu znajduje się wersjonowany schemat `AttendeeRegistered` i `Ti
 
 ---
 
-## Slajd 18 — 6. Anti-Corruption Layer: tłumaczenie na granicy // część 1
+## Slajd 20 — 6. Anti-Corruption Layer: tłumaczenie na granicy // część 1
 
 **Cel:** pokazać konkretne tłumaczenie pomiędzy językami.
 
@@ -473,7 +506,7 @@ Odpowiedź: translator oraz ewentualnie test kontraktowy. Model `SpeakerCandidat
 
 ---
 
-## Slajd 19 — 6. Anti-Corruption Layer: tłumaczenie na granicy // część 2
+## Slajd 21 — 6. Anti-Corruption Layer: tłumaczenie na granicy // część 2
 
 **Cel:** odróżnić granicę modelu od mechanizmu komunikacji.
 
@@ -503,7 +536,7 @@ Najczęściej nie, ponieważ ta informacja w ogóle nie należy do modelu Progra
 
 ---
 
-## Slajd 20 — 7. Granica modelu a granica techniczna // część 1
+## Slajd 22 — 7. Granica modelu a granica techniczna // część 1
 
 **Cel:** oddzielić Bounded Context od mikroserwisów.
 
@@ -527,7 +560,23 @@ Powiedz wyraźnie: prawidłowo odkryte konteksty mogą później pomóc wydzieli
 
 ---
 
-## Slajd 21 — 7. Granica modelu a granica techniczna // część 2
+## Slajd 23 — 7. Granica modelu a granica techniczna // część 2
+
+**Cel:** pokazać wzrost izolacji i kosztu technicznego.
+
+### Co powiedzieć
+
+Czytaj diagram od lewej do prawej:
+
+- pakiety izolują kod i zależności w jednym procesie,
+- moduły dodają jawne API oraz kontrolę widoczności typów,
+- osobne procesy izolują wdrożenia, dane i awarie, ale wprowadzają sieć oraz spójność ostateczną.
+
+Bounded Context pozostaje granicą modelu na każdym poziomie. Wybieramy najmniejszy mechanizm techniczny, który zapewnia potrzebną autonomię.
+
+---
+
+## Slajd 24 — 7. Granica modelu a granica techniczna // część 3
 
 **Cel:** pokazać możliwą strukturę modularnego monolitu.
 
@@ -559,7 +608,7 @@ To dobry moment na połączenie wykładów 06, 07 i 08.
 
 ---
 
-## Slajd 22 — 8. Testy kontraktów i autonomii
+## Slajd 25 — 8. Testy kontraktów i autonomii
 
 **Cel:** pokazać, co należy testować na granicy.
 
@@ -601,7 +650,7 @@ Następnie, jeśli czas pozwala, wykonaj krótką zmianę na żywo: dodaj pole `
 
 ---
 
-## Slajd 23 — 9. Typowe błędy
+## Slajd 26 — 9. Typowe błędy // część 1
 
 **Cel:** utrwalić granice przez antyprzykłady.
 
@@ -635,7 +684,25 @@ Odpowiedź: wszystkie.
 
 ---
 
-## Slajd 24 — 10. Projekt przykładowy
+## Slajd 27 — 9. Typowe błędy // część 2
+
+**Cel:** zamienić listę pułapek w zestaw konkretnych korekt projektowych.
+
+### Co powiedzieć
+
+Przejdź wierszami od czerwonej pułapki do zielonej decyzji:
+
+- jeden `Participant` zastępujemy lokalnymi modelami osoby,
+- granice wynikające z tabel zastępujemy granicami decyzji biznesowych,
+- wspólną bibliotekę domenową zastępujemy małymi kontraktami,
+- kopię encji w zdarzeniu zastępujemy nazwanym faktem biznesowym,
+- mikroserwis dla każdego pojęcia zastępujemy najpierw modularnym monolitem.
+
+Podkreśl podpis diagramu: wszystkie błędy można popełnić również w systemie mikroserwisowym.
+
+---
+
+## Slajd 28 — 10. Projekt przykładowy
 
 **Cel:** zebrać strukturę przykładu przed zakończeniem.
 
@@ -668,7 +735,7 @@ Warunek ćwiczenia: `BadgeHolderCandidate` nie może importować modelu Rejestra
 
 ---
 
-## Slajd 25 — Podsumowanie
+## Slajd 29 — Podsumowanie
 
 **Cel:** zamknąć wykład pięcioma tezami.
 
@@ -698,22 +765,22 @@ Zakończ zdaniem:
 
 | Część | Slajdy | Czas |
 |---|---:|---:|
-| Wprowadzenie i problem | 1–5 | 12 min |
-| Definicja i odkrywanie granic | 6–9 | 15 min |
-| Context Map i katalog relacji | 10–11 | 10 min |
-| Diagramy dopasowania relacji | 12–17 | 15 min |
-| ACL, komunikacja i architektura | 18–21 | 18 min |
-| Testy i kod | 22–24 | 12 min |
-| Podsumowanie | 25 | 3 min |
+| Wprowadzenie i problem | 1–5 | 10 min |
+| Definicja, język i diagramy granic | 6–11 | 16 min |
+| Context Map i katalog relacji | 12–13 | 8 min |
+| Diagramy dopasowania relacji | 14–19 | 15 min |
+| ACL, komunikacja i architektura | 20–24 | 18 min |
+| Testy, błędy i kod | 25–28 | 15 min |
+| Podsumowanie | 29 | 3 min |
 
 ## Skrócona ścieżka na 60 minut
 
 Jeżeli zajęcia są krótsze:
 
 - skróć slajdy 2–3 do dwóch minut łącznie,
-- na slajdzie 7 omów tylko konflikt znaczeń i tempo zmian,
-- na slajdzie 11 zapowiedz katalog, a z diagramów 12–17 wybierz Customer / Supplier, Conformist i ACL,
-- na slajdzie 19 porównaj tylko Event-Carried State z jawnym API,
+- na slajdach 7–8 omów tylko konflikt znaczeń i tempo zmian,
+- na slajdzie 13 zapowiedz katalog, a z diagramów 14–19 wybierz Customer / Supplier, Conformist i ACL,
+- na slajdzie 21 porównaj tylko Event-Carried State z jawnym API,
 - demonstrację kodu ogranicz do translatora i drugiego testu,
 - nie wykonuj zmiany `marketingConsent` na żywo.
 
