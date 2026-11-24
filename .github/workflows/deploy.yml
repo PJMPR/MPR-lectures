@@ -18,7 +18,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url || steps.deployment_final.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,4 +31,20 @@ jobs:
           path: site/
       - name: Deploy to GitHub Pages
         id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: Wait before retrying deployment
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 10
+      - name: Retry deployment
+        if: steps.deployment.outcome == 'failure'
+        id: deployment_retry
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: Wait before final deployment attempt
+        if: steps.deployment_retry.outcome == 'failure'
+        run: sleep 10
+      - name: Final deployment attempt
+        if: steps.deployment_retry.outcome == 'failure'
+        id: deployment_final
         uses: actions/deploy-pages@v4
