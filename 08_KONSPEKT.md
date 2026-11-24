@@ -7,7 +7,7 @@
 **Materiał na stronie:** `site/lectures/08-ddd-strategic-design.html`  
 **Kod:** `examples/08-bounded-context`  
 **Orientacyjny czas:** 75–90 minut  
-**Liczba slajdów w trybie prezentacji:** 21
+**Liczba slajdów w trybie prezentacji:** 19
 
 ### Główna myśl wykładu
 
@@ -87,7 +87,7 @@ Zaznacz, że samo narysowanie kilku prostokątów nie wystarcza. Granica ma sens
 
 ---
 
-## Slajd 4 — Cold open: kim jest uczestnik?
+## Slajd 4 — Cold open: kim jest uczestnik? // część 1
 
 **Cel:** zbudować problem przed podaniem definicji.
 
@@ -102,21 +102,21 @@ Omów perspektywy:
 - dostęp pyta, do których stref można ją wpuścić,
 - księgowość pyta, jakie dokumenty i płatności są z nią związane.
 
-### Pytanie do studentów
-
-„Czy anulowanie biletu powinno automatycznie usunąć prelegenta z programu?”
-
-Nie szukaj jednej odpowiedzi. Chodzi o ujawnienie, że decyzja zależy od reguł różnych obszarów. Prelegent może mieć osobną akredytację, więc status biletu uczestnika nie musi decydować o statusie wydarzenia.
-
 **Przejście:** „Zobaczmy, co dzieje się z kodem, kiedy próbujemy zmieścić te znaczenia w jednym typie”.
 
 ---
 
-## Slajd 5 — Jeden wspólny `Participant`
+## Slajd 5 — Cold open: kim jest uczestnik? // część 2
 
 **Cel:** pokazać symptom pomieszania modeli.
 
 ### Co powiedzieć
+
+Zacznij od pytania widocznego nad kodem:
+
+„Czy anulowanie biletu powinno automatycznie usunąć prelegenta z programu?”
+
+Nie szukaj jednej odpowiedzi. Chodzi o ujawnienie, że decyzja zależy od reguł różnych obszarów. Prelegent może mieć osobną akredytację, więc status biletu uczestnika nie musi decydować o statusie wydarzenia.
 
 Omów klasę `Participant`. Nie krytykuj jej tylko dlatego, że ma wiele pól. Duży obiekt może być poprawny, jeśli pola należą do jednego spójnego modelu. Tutaj problemem jest liczba niezależnych powodów do zmiany.
 
@@ -139,7 +139,7 @@ Powiedz wprost: Bounded Context nie rozwiązuje problemu przez podział klasy na
 
 ---
 
-## Slajd 6 — Bounded Context: trzy modele
+## Slajd 6 — 1. Bounded Context: granica znaczenia
 
 **Cel:** podać definicję i od razu zakotwiczyć ją w przykładzie.
 
@@ -171,13 +171,7 @@ Podkreśl, że wszystkie modele mogą opisywać tę samą osobę w świecie rzec
 
 Oczekiwana odpowiedź: Program, ponieważ biografia jest częścią prezentacji programu, a nie sprzedaży biletu.
 
----
-
-## Slajd 7 — Ta sama osoba, trzy reprezentacje
-
-**Cel:** doprecyzować notatkę do diagramu.
-
-### Co powiedzieć
+### Notatka do diagramu: ta sama osoba, trzy reprezentacje
 
 Wyjaśnij różnicę między tożsamością biznesową a reprezentacją w modelu. Konteksty mogą wymieniać identyfikator zewnętrzny, ale każdy tworzy własny lokalny obiekt.
 
@@ -193,7 +187,7 @@ Powiedz, że granica jest także granicą wiedzy. Każdy kontekst powinien wiedz
 
 ---
 
-## Slajd 8 — Granice odkrywamy w języku i zmianach
+## Slajd 7 — 2. Granice odkrywamy w języku i zmianach
 
 **Cel:** dać praktyczne heurystyki odkrywania kontekstów.
 
@@ -229,7 +223,7 @@ Przykład: liczba posiłków, `DietaryRequirement`, `MealVoucher`, zdarzenie `At
 
 ---
 
-## Slajd 9 — Język jest lokalny
+## Slajd 8 — 3. Język jest lokalny // część 1
 
 **Cel:** pokazać, że Ubiquitous Language nie musi być globalny.
 
@@ -254,7 +248,7 @@ Odpowiedź: warto dokumentować powiązania i różnice, ale nie należy wymusza
 
 ---
 
-## Slajd 10 — Lokalny model `Speaker`
+## Slajd 9 — 3. Język jest lokalny // część 2
 
 **Cel:** przejść od języka do struktury kodu.
 
@@ -275,7 +269,7 @@ Nie otwieraj jeszcze kodu przykładu. Najpierw pokaż mapę współpracy.
 
 ---
 
-## Slajd 11 — Context Map
+## Slajd 10 — 4. Context Map: mapa współpracy
 
 **Cel:** pokazać relacje i kierunek zależności.
 
@@ -302,13 +296,7 @@ Wyjaśnij pojęcia:
 
 Nie utożsamiaj upstreamu z „ważniejszym systemem”. To opis kierunku zależności.
 
----
-
-## Slajd 12 — Jak czytać strzałki na mapie
-
-**Cel:** uniknąć typowego nieporozumienia dotyczącego kierunku zależności.
-
-### Co powiedzieć
+### Notatka do diagramu: jak czytać strzałki na mapie
 
 Strzałka nie musi pokazywać fizycznego przepływu każdego wywołania sieciowego. Ma pokazać, kto jest zależny od czyjego kontraktu i znaczenia.
 
@@ -329,7 +317,7 @@ Odpowiedź: nie. Można przesyłać całą encję i stworzyć silne sprzężenie
 
 ---
 
-## Slajd 13 — Wzorce relacji między kontekstami
+## Slajd 11 — 5. Wzorce relacji między kontekstami
 
 **Cel:** przedstawić katalog relacji jako decyzje organizacyjne i modelowe.
 
@@ -365,7 +353,7 @@ Podkreśl, że wzorce można łączyć. Open Host Service często używa Publish
 
 ---
 
-## Slajd 14 — Anti-Corruption Layer w kodzie
+## Slajd 12 — 6. Anti-Corruption Layer: tłumaczenie na granicy // część 1
 
 **Cel:** pokazać konkretne tłumaczenie pomiędzy językami.
 
@@ -401,7 +389,7 @@ Odpowiedź: translator oraz ewentualnie test kontraktowy. Model `SpeakerCandidat
 
 ---
 
-## Slajd 15 — Sposoby przekazania informacji
+## Slajd 13 — 6. Anti-Corruption Layer: tłumaczenie na granicy // część 2
 
 **Cel:** odróżnić granicę modelu od mechanizmu komunikacji.
 
@@ -431,7 +419,7 @@ Najczęściej nie, ponieważ ta informacja w ogóle nie należy do modelu Progra
 
 ---
 
-## Slajd 16 — Pakiet, moduł czy osobny proces?
+## Slajd 14 — 7. Granica modelu a granica techniczna // część 1
 
 **Cel:** oddzielić Bounded Context od mikroserwisów.
 
@@ -455,7 +443,7 @@ Powiedz wyraźnie: prawidłowo odkryte konteksty mogą później pomóc wydzieli
 
 ---
 
-## Slajd 17 — Granice w strukturze projektu
+## Slajd 15 — 7. Granica modelu a granica techniczna // część 2
 
 **Cel:** pokazać możliwą strukturę modularnego monolitu.
 
@@ -487,7 +475,7 @@ To dobry moment na połączenie wykładów 06, 07 i 08.
 
 ---
 
-## Slajd 18 — Testy kontraktów i autonomii
+## Slajd 16 — 8. Testy kontraktów i autonomii
 
 **Cel:** pokazać, co należy testować na granicy.
 
@@ -529,7 +517,7 @@ Następnie, jeśli czas pozwala, wykonaj krótką zmianę na żywo: dodaj pole `
 
 ---
 
-## Slajd 19 — Typowe błędy
+## Slajd 17 — 9. Typowe błędy
 
 **Cel:** utrwalić granice przez antyprzykłady.
 
@@ -563,7 +551,7 @@ Odpowiedź: wszystkie.
 
 ---
 
-## Slajd 20 — Projekt przykładowy
+## Slajd 18 — 10. Projekt przykładowy
 
 **Cel:** zebrać strukturę przykładu przed zakończeniem.
 
@@ -596,7 +584,7 @@ Warunek ćwiczenia: `BadgeHolderCandidate` nie może importować modelu Rejestra
 
 ---
 
-## Slajd 21 — Podsumowanie
+## Slajd 19 — Podsumowanie
 
 **Cel:** zamknąć wykład pięcioma tezami.
 
@@ -627,20 +615,20 @@ Zakończ zdaniem:
 | Część | Slajdy | Czas |
 |---|---:|---:|
 | Wprowadzenie i problem | 1–5 | 15 min |
-| Definicja i odkrywanie granic | 6–10 | 20 min |
-| Context Map i relacje | 11–13 | 15 min |
-| ACL, komunikacja i architektura | 14–17 | 20 min |
-| Testy i kod | 18–20 | 15 min |
-| Podsumowanie | 21 | 5 min |
+| Definicja i odkrywanie granic | 6–9 | 20 min |
+| Context Map i relacje | 10–11 | 15 min |
+| ACL, komunikacja i architektura | 12–15 | 20 min |
+| Testy i kod | 16–18 | 15 min |
+| Podsumowanie | 19 | 5 min |
 
 ## Skrócona ścieżka na 60 minut
 
 Jeżeli zajęcia są krótsze:
 
 - skróć slajdy 2–3 do dwóch minut łącznie,
-- na slajdzie 8 omów tylko konflikt znaczeń i tempo zmian,
-- na slajdzie 13 skup się na Customer / Supplier, Conformist i ACL,
-- na slajdzie 15 porównaj tylko Event-Carried State z jawnym API,
+- na slajdzie 7 omów tylko konflikt znaczeń i tempo zmian,
+- na slajdzie 11 skup się na Customer / Supplier, Conformist i ACL,
+- na slajdzie 13 porównaj tylko Event-Carried State z jawnym API,
 - demonstrację kodu ogranicz do translatora i drugiego testu,
 - nie wykonuj zmiany `marketingConsent` na żywo.
 
