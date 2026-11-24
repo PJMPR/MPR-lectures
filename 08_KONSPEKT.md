@@ -7,7 +7,7 @@
 **Materiał na stronie:** `site/lectures/08-ddd-strategic-design.html`  
 **Kod:** `examples/08-bounded-context`  
 **Orientacyjny czas:** 75–90 minut  
-**Liczba slajdów w trybie prezentacji:** 19
+**Liczba slajdów w trybie prezentacji:** 25
 
 ### Główna myśl wykładu
 
@@ -285,7 +285,7 @@ Wyjaśnij, że Context Map nie jest diagramem klas ani architekturą wdrożenia.
 Omów mapę:
 
 - Rejestracja publikuje `AttendeeRegistered`, `TicketActivated` oraz `PaymentCaptured`,
-- Program tłumaczy zdarzenie przez ACL,
+- Program tłumaczy zdarzenie przez **ACL (Anti-Corruption Layer, warstwę antykorupcyjną)**,
 - Dostęp może negocjować kontrakt z Rejestracją,
 - Rozliczenia mogą świadomie zaakceptować format Rejestracji.
 
@@ -305,7 +305,7 @@ Przykład:
 - Rejestracja jest właścicielem faktu `AttendeeRegistered`,
 - Program odbiera ten fakt,
 - Program jest downstreamem, ale nie musi przyjmować całego modelu Rejestracji,
-- ACL ogranicza zależność do małego adaptera.
+- ACL, czyli Anti-Corruption Layer, tłumaczy kontrakt Rejestracji na pojęcia Programu i ogranicza zależność do małego adaptera. „Antykorupcyjna” oznacza tutaj ochronę lokalnego modelu przed przenikaniem obcych nazw, struktur danych i reguł — nie ma związku z korupcją w znaczeniu prawnym.
 
 Zwróć uwagę, że komunikacja asynchroniczna nie usuwa zależności semantycznej. Konsument nadal musi rozumieć format i znaczenie wiadomości.
 
@@ -353,7 +353,91 @@ Podkreśl, że wzorce można łączyć. Open Host Service często używa Publish
 
 ---
 
-## Slajd 12 — 6. Anti-Corruption Layer: tłumaczenie na granicy // część 1
+## Slajd 12 — 5.1 Partnership: wspólny sukces
+
+**Cel:** pokazać relację wymagającą skoordynowanej pracy obu stron.
+
+### Co powiedzieć
+
+Omów dwukierunkowe strzałki między Programem i Dostępem. Wejście prelegenta za kulisy działa dopiero wtedy, gdy Program poprawnie wskaże prelegenta, a Dostęp nada mu właściwe strefy. Oba zespoły wspólnie planują kontrakt, testy i termin wdrożenia.
+
+**Kiedy pasuje:** funkcja nie ma wartości bez zmian po obu stronach, a zespoły mogą wspólnie planować.
+
+**Koszt:** silna koordynacja. Jeżeli jedna strona powinna móc wdrażać się niezależnie, Partnership może być zbyt ciasne.
+
+---
+
+## Slajd 13 — 5.2 Customer / Supplier: negocjowany kontrakt
+
+**Cel:** wyjaśnić wpływ downstreamu na kontrakt upstreamu.
+
+### Co powiedzieć
+
+Rejestracja jest dostawcą i właścicielem informacji o bilecie. Dostęp jest klientem, który potrzebuje zdarzenia `TicketActivated`. Może zgłosić wymagane pola i oczekiwania dotyczące stabilności, ale nie przejmuje własności kontraktu.
+
+**Kiedy pasuje:** downstream jest ważnym klientem, a upstream może uwzględniać jego potrzeby w roadmapie.
+
+**Ryzyko:** Rejestracja może stać się wąskim gardłem, gdy wielu klientów zgłasza konkurujące potrzeby.
+
+---
+
+## Slajd 14 — 5.3 Conformist: świadoma zgodność
+
+**Cel:** pokazać sytuację, w której brak tłumaczenia jest rozsądnym kompromisem.
+
+### Co powiedzieć
+
+Rozliczenia przyjmują `PaymentCaptured` w znaczeniu nadanym przez Rejestrację. Nie tworzą własnego translatora, ponieważ pojęcia i dane dostawcy wystarczają do ich decyzji.
+
+**Kiedy pasuje:** kontrakt jest stabilny, semantyka obu stron jest zbliżona, a osobny model nie przyniósłby wartości.
+
+**Ryzyko:** zmiana języka Rejestracji przenika bezpośrednio do Rozliczeń. Podkreśl, że Conformist jest świadomą decyzją, a nie synonimem złej architektury.
+
+---
+
+## Slajd 15 — 5.4 Anti-Corruption Layer: ochrona modelu
+
+**Cel:** zobrazować tłumaczenie i odrzucanie nieistotnych danych na granicy.
+
+### Co powiedzieć
+
+Przejdź diagram od lewej do prawej: `AttendeeRegistered` należy do Rejestracji, translator ACL stoi na granicy, a `SpeakerCandidate` należy do Programu. `ticketType` kończy drogę w translatorze, ponieważ Program nie podejmuje decyzji dotyczących biletu.
+
+**Kiedy pasuje:** lokalny model ma inne pojęcia i reguły oraz powinien pozostać niezależny od upstreamu.
+
+**Koszt:** trzeba utrzymywać kod mapujący i testy. Korzyścią jest zatrzymanie zmian zewnętrznego kontraktu w jednym adapterze.
+
+---
+
+## Slajd 16 — 5.5 Open Host Service: jedno wejście dla wielu
+
+**Cel:** pokazać stabilny interfejs upstreamu dla wielu odbiorców.
+
+### Co powiedzieć
+
+Rejestracja publikuje jedno API używane przez Program, Dostęp i Rozliczenia. Dzięki temu nie tworzy osobnego połączenia punkt–punkt dla każdego konsumenta.
+
+**Kiedy pasuje:** wielu odbiorców potrzebuje podobnych, stabilnych informacji z tego samego kontekstu.
+
+**Ryzyko:** interfejs wymaga wersjonowania i zarządzania kompatybilnością. Nie powinien stać się przypadkową sumą wszystkich potrzeb odbiorców.
+
+---
+
+## Slajd 17 — 5.6 Published Language: wspólny alfabet
+
+**Cel:** odróżnić opis formatu od usługi, która go udostępnia.
+
+### Co powiedzieć
+
+W centrum diagramu znajduje się wersjonowany schemat `AttendeeRegistered` i `TicketActivated`. Rejestracja publikuje wiadomości, a Program oraz Dostęp rozumieją je na podstawie tej samej specyfikacji, na przykład JSON Schema lub AsyncAPI.
+
+**Kiedy pasuje:** wiele stron musi jednakowo rozumieć strukturę i znaczenie komunikatów.
+
+**Ryzyko:** format może stać się zbyt ogólny. Wyjaśnij, że Published Language często uzupełnia Open Host Service: OHS mówi, gdzie współpracujemy, a Published Language — jakim językiem.
+
+---
+
+## Slajd 18 — 6. Anti-Corruption Layer: tłumaczenie na granicy // część 1
 
 **Cel:** pokazać konkretne tłumaczenie pomiędzy językami.
 
@@ -389,7 +473,7 @@ Odpowiedź: translator oraz ewentualnie test kontraktowy. Model `SpeakerCandidat
 
 ---
 
-## Slajd 13 — 6. Anti-Corruption Layer: tłumaczenie na granicy // część 2
+## Slajd 19 — 6. Anti-Corruption Layer: tłumaczenie na granicy // część 2
 
 **Cel:** odróżnić granicę modelu od mechanizmu komunikacji.
 
@@ -419,7 +503,7 @@ Najczęściej nie, ponieważ ta informacja w ogóle nie należy do modelu Progra
 
 ---
 
-## Slajd 14 — 7. Granica modelu a granica techniczna // część 1
+## Slajd 20 — 7. Granica modelu a granica techniczna // część 1
 
 **Cel:** oddzielić Bounded Context od mikroserwisów.
 
@@ -443,7 +527,7 @@ Powiedz wyraźnie: prawidłowo odkryte konteksty mogą później pomóc wydzieli
 
 ---
 
-## Slajd 15 — 7. Granica modelu a granica techniczna // część 2
+## Slajd 21 — 7. Granica modelu a granica techniczna // część 2
 
 **Cel:** pokazać możliwą strukturę modularnego monolitu.
 
@@ -475,7 +559,7 @@ To dobry moment na połączenie wykładów 06, 07 i 08.
 
 ---
 
-## Slajd 16 — 8. Testy kontraktów i autonomii
+## Slajd 22 — 8. Testy kontraktów i autonomii
 
 **Cel:** pokazać, co należy testować na granicy.
 
@@ -517,7 +601,7 @@ Następnie, jeśli czas pozwala, wykonaj krótką zmianę na żywo: dodaj pole `
 
 ---
 
-## Slajd 17 — 9. Typowe błędy
+## Slajd 23 — 9. Typowe błędy
 
 **Cel:** utrwalić granice przez antyprzykłady.
 
@@ -551,7 +635,7 @@ Odpowiedź: wszystkie.
 
 ---
 
-## Slajd 18 — 10. Projekt przykładowy
+## Slajd 24 — 10. Projekt przykładowy
 
 **Cel:** zebrać strukturę przykładu przed zakończeniem.
 
@@ -584,7 +668,7 @@ Warunek ćwiczenia: `BadgeHolderCandidate` nie może importować modelu Rejestra
 
 ---
 
-## Slajd 19 — Podsumowanie
+## Slajd 25 — Podsumowanie
 
 **Cel:** zamknąć wykład pięcioma tezami.
 
@@ -614,12 +698,13 @@ Zakończ zdaniem:
 
 | Część | Slajdy | Czas |
 |---|---:|---:|
-| Wprowadzenie i problem | 1–5 | 15 min |
-| Definicja i odkrywanie granic | 6–9 | 20 min |
-| Context Map i relacje | 10–11 | 15 min |
-| ACL, komunikacja i architektura | 12–15 | 20 min |
-| Testy i kod | 16–18 | 15 min |
-| Podsumowanie | 19 | 5 min |
+| Wprowadzenie i problem | 1–5 | 12 min |
+| Definicja i odkrywanie granic | 6–9 | 15 min |
+| Context Map i katalog relacji | 10–11 | 10 min |
+| Diagramy dopasowania relacji | 12–17 | 15 min |
+| ACL, komunikacja i architektura | 18–21 | 18 min |
+| Testy i kod | 22–24 | 12 min |
+| Podsumowanie | 25 | 3 min |
 
 ## Skrócona ścieżka na 60 minut
 
@@ -627,8 +712,8 @@ Jeżeli zajęcia są krótsze:
 
 - skróć slajdy 2–3 do dwóch minut łącznie,
 - na slajdzie 7 omów tylko konflikt znaczeń i tempo zmian,
-- na slajdzie 11 skup się na Customer / Supplier, Conformist i ACL,
-- na slajdzie 13 porównaj tylko Event-Carried State z jawnym API,
+- na slajdzie 11 zapowiedz katalog, a z diagramów 12–17 wybierz Customer / Supplier, Conformist i ACL,
+- na slajdzie 19 porównaj tylko Event-Carried State z jawnym API,
 - demonstrację kodu ogranicz do translatora i drugiego testu,
 - nie wykonuj zmiany `marketingConsent` na żywo.
 
